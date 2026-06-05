@@ -1,5 +1,6 @@
 @import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Raleway:200,700|Source+Sans+Pro:300,600,300italic,600italic");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300..600&display=swap");
 
 /*
 	Solid State by HTML5 UP
@@ -121,9 +122,9 @@ input, select, textarea {
 
 	body, input, select, textarea {
 		color: #2e3a45;
-		font-family: "Source Sans Pro", Helvetica, sans-serif;
+		font-family: "Source Sans Pro", "Noto Sans TC", Helvetica, sans-serif;
 		font-size: 16.5pt;
-		font-weight: 400;
+		font-weight: 350;
 		line-height: 1.65;
 	}
 

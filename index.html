@@ -4,13 +4,90 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
-<html>
+<html lang="zh-Hant">
 	<head>
-		<title>Solid State by HTML5 UP</title>
+		<title>陳宣妤 Sherry Chen｜個人履歷</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="陳宣妤 Sherry Chen — 輔仁大學資訊工程學系。具備網頁前後端開發經驗，曾主導全端購票系統與 LINE Bot 專案，並擔任資安社團會長。" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<style>
+			/* ===== 履歷自訂樣式 ===== */
+			body { word-break: break-word; }
+
+			/* 技能 */
+			.skill-grid { display: flex; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; }
+			.skill-grid > li {
+				width: calc(50% - 1.5em);
+				margin: 0 1.5em 1.75em 0;
+			}
+			.skill-grid > li:nth-child(2n) { margin-right: 0; }
+			.skill-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.5em; }
+			.skill-head .name { font-weight: 700; color: #ffffff; }
+			.skill-head .level { font-size: 0.8em; color: #a3aabf; letter-spacing: 0.05em; }
+			.bar { background: rgba(255,255,255,0.08); height: 8px; border-radius: 4px; overflow: hidden; }
+			.bar > span { display: block; height: 100%; background: linear-gradient(90deg, #5b6ba6, #9fb0e3); border-radius: 4px; }
+
+			/* 標籤 */
+			.tags { list-style: none; margin: 0.75em 0 0 0; padding: 0; }
+			.tags > li {
+				display: inline-block;
+				border: 1px solid #5b6ba6;
+				border-radius: 4px;
+				padding: 0.15em 0.7em;
+				margin: 0 0.4em 0.5em 0;
+				font-size: 0.75em;
+				color: #cfd5ea;
+				letter-spacing: 0.05em;
+			}
+
+			/* 專案卡片圖示 */
+			.proj-icon {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 3em;
+				height: 3em;
+				border-radius: 50%;
+				background: rgba(91,107,166,0.25);
+				color: #9fb0e3;
+				font-size: 1.5em;
+				margin-bottom: 0.5em;
+			}
+			.features article ul { margin: 0.5em 0 0 0; }
+
+			/* 獎項 / 經歷清單 */
+			.timeline { list-style: none; margin: 0; padding: 0; }
+			.timeline > li {
+				border-left: 2px solid #4c5c96;
+				padding: 0 0 1.5em 1.5em;
+				position: relative;
+			}
+			.timeline > li:last-child { padding-bottom: 0; }
+			.timeline > li::before {
+				content: '';
+				position: absolute;
+				left: -7px;
+				top: 0.35em;
+				width: 12px;
+				height: 12px;
+				border-radius: 50%;
+				background: #9fb0e3;
+			}
+			.timeline .ttl { font-weight: 700; color: #ffffff; }
+			.timeline .meta { font-size: 0.85em; color: #a3aabf; margin-bottom: 0.4em; }
+
+			/* 關於我：維持圖左、文字靠左（覆寫模板的交替對齊） */
+			#about.wrapper.spotlight .inner { flex-direction: row; text-align: left; }
+			#about.wrapper.spotlight .image { margin: 0 3em 2em 0; }
+
+			@media screen and (max-width: 736px) {
+				.skill-grid > li { width: 100%; margin-right: 0; }
+				#about.wrapper.spotlight .inner { flex-direction: column; text-align: center; }
+				#about.wrapper.spotlight .image { margin: 0 0 2em 0; }
+			}
+		</style>
 	</head>
 	<body class="is-preload">
 
@@ -19,7 +96,7 @@
 
 				<!-- Header -->
 					<header id="header" class="alt">
-						<h1><a href="index.html">Solid State</a></h1>
+						<h1><a href="#banner">陳宣妤 <span style="opacity:.7;font-weight:400;">Sherry Chen</span></a></h1>
 						<nav>
 							<a href="#menu">Menu</a>
 						</nav>
@@ -28,13 +105,15 @@
 				<!-- Menu -->
 					<nav id="menu">
 						<div class="inner">
-							<h2>Menu</h2>
+							<h2>選單</h2>
 							<ul class="links">
-								<li><a href="index.html">Home</a></li>
-								<li><a href="generic.html">Generic</a></li>
-								<li><a href="elements.html">Elements</a></li>
-								<li><a href="#">Log In</a></li>
-								<li><a href="#">Sign Up</a></li>
+								<li><a href="#banner">首頁</a></li>
+								<li><a href="#about">關於我</a></li>
+								<li><a href="#skills">學歷與技能</a></li>
+								<li><a href="#projects">專案作品</a></li>
+								<li><a href="#awards">獎項與證照</a></li>
+								<li><a href="#club">社團經歷</a></li>
+								<li><a href="#footer">聯絡我</a></li>
 							</ul>
 							<a href="#" class="close">Close</a>
 						</div>
@@ -43,85 +122,162 @@
 				<!-- Banner -->
 					<section id="banner">
 						<div class="inner">
-							<div class="logo"><span class="icon fa-gem"></span></div>
-							<h2>This is Solid State</h2>
-							<p>Another free + fully responsive site template by <a href="http://html5up.net">HTML5 UP</a></p>
+							<div class="logo"><span class="icon solid fa-code"></span></div>
+							<h2>陳宣妤 Sherry Chen</h2>
+							<p>讓學習不止於理解，而是化為成果<br />
+							輔仁大學資訊工程學系｜全端開發 × 資訊安全</p>
 						</div>
 					</section>
 
 				<!-- Wrapper -->
 					<section id="wrapper">
 
-						<!-- One -->
-							<section id="one" class="wrapper spotlight style1">
+						<!-- About -->
+							<section id="about" class="wrapper spotlight style2">
 								<div class="inner">
-									<a href="#" class="image"><img src="images/pic01.jpg" alt="" /></a>
+									<span class="image"><img src="images/profile.jpg" alt="陳宣妤 Sherry Chen" /></span>
 									<div class="content">
-										<h2 class="major">Magna arcu feugiat</h2>
-										<p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-										<a href="#" class="special">Learn more</a>
+										<h2 class="major">關於我</h2>
+										<p>輔仁大學資訊工程學系三年級，具備網頁前端與後端開發經驗，曾主導開發全端購票系統與 LINE Bot 結合爬蟲等專案。擔任社團會長期間，自學網頁技術並設計系統化課程，帶領學員從零開始實作。</p>
+										<p>目前以畢業即就業為目標，期許透過實習深入業界開發流程，將所學轉化為產業即戰力。</p>
+										<a href="https://github.com/Fallnight0517" target="_blank" rel="noopener" class="special">前往我的 GitHub</a>
 									</div>
 								</div>
 							</section>
 
-						<!-- Two -->
-							<section id="two" class="wrapper alt spotlight style2">
+						<!-- Education & Skills -->
+							<section id="skills" class="wrapper alt style3">
 								<div class="inner">
-									<a href="#" class="image"><img src="images/pic02.jpg" alt="" /></a>
-									<div class="content">
-										<h2 class="major">Tempus adipiscing</h2>
-										<p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-										<a href="#" class="special">Learn more</a>
-									</div>
+									<h2 class="major">學歷與技能</h2>
+
+									<h3>學歷</h3>
+									<p>
+										<strong>輔仁大學</strong>　資訊工程學系（三年級）<br />
+										<span style="color:#a3aabf;">2023 ～ 至今</span>
+									</p>
+
+									<h3>技能</h3>
+									<ul class="skill-grid">
+										<li>
+											<div class="skill-head"><span class="name">網頁開發</span><span class="level">基礎</span></div>
+											<div class="bar"><span style="width:50%"></span></div>
+											<ul class="tags"><li>HTML5</li><li>CSS3</li><li>JavaScript</li><li>PHP</li></ul>
+										</li>
+										<li>
+											<div class="skill-head"><span class="name">程式語言</span><span class="level">熟悉</span></div>
+											<div class="bar"><span style="width:72%"></span></div>
+											<ul class="tags"><li>C++</li><li>Python</li></ul>
+										</li>
+										<li>
+											<div class="skill-head"><span class="name">其他語言</span><span class="level">基礎</span></div>
+											<div class="bar"><span style="width:38%"></span></div>
+											<ul class="tags"><li>Java</li><li>T-SQL</li></ul>
+										</li>
+										<li>
+											<div class="skill-head"><span class="name">開發工具與環境</span><span class="level">基礎</span></div>
+											<div class="bar"><span style="width:48%"></span></div>
+											<ul class="tags"><li>Wireshark 分析</li><li>Linux 系統指令</li><li>Git 版本控制</li></ul>
+										</li>
+									</ul>
 								</div>
 							</section>
 
-						<!-- Three -->
-							<section id="three" class="wrapper spotlight style3">
+						<!-- Projects -->
+							<section id="projects" class="wrapper style4">
 								<div class="inner">
-									<a href="#" class="image"><img src="images/pic03.jpg" alt="" /></a>
-									<div class="content">
-										<h2 class="major">Nullam dignissim</h2>
-										<p>Lorem ipsum dolor sit amet, etiam lorem adipiscing elit. Cras turpis ante, nullam sit amet turpis non, sollicitudin posuere urna. Mauris id tellus arcu. Nunc vehicula id nulla dignissim dapibus. Nullam ultrices, neque et faucibus viverra, ex nulla cursus.</p>
-										<a href="#" class="special">Learn more</a>
-									</div>
-								</div>
-							</section>
-
-						<!-- Four -->
-							<section id="four" class="wrapper alt style1">
-								<div class="inner">
-									<h2 class="major">Vitae phasellus</h2>
-									<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
+									<h2 class="major">專案作品</h2>
+									<p>更多課程專案與社團授課教材收錄於
+										<a href="https://github.com/Fallnight0517" target="_blank" rel="noopener">GitHub</a>。</p>
 									<section class="features">
 										<article>
-											<a href="#" class="image"><img src="images/pic04.jpg" alt="" /></a>
-											<h3 class="major">Sed feugiat lorem</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
+											<span class="proj-icon"><span class="icon solid fa-ticket-alt"></span></span>
+											<h3 class="major">展覽購票網站</h3>
+											<ul class="tags"><li>Python Flask</li><li>SQL Server</li><li>HTML / CSS</li></ul>
+											<ul>
+												<li>開發全端展覽購票系統，實作會員註冊、展覽瀏覽、票券夾與後台管理展覽功能。</li>
+												<li>前端以 HTML / CSS 建構操作介面，後端透過 Flask 處理請求並串接 SQL Server 資料庫。</li>
+											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic05.jpg" alt="" /></a>
-											<h3 class="major">Nisl placerat</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
+											<span class="proj-icon"><span class="icon solid fa-robot"></span></span>
+											<h3 class="major">LINE Bot 聊天機器人</h3>
+											<ul class="tags"><li>Python</li><li>LINE Messaging API</li><li>Web Scraping</li></ul>
+											<ul>
+												<li>結合爬蟲與 LINE Messaging API，開發即時查詢天氣、股價與新聞的聊天機器人。</li>
+												<li>實作網頁爬蟲模組，透過 CSS Selector 抓取目標網站資料。</li>
+											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic06.jpg" alt="" /></a>
-											<h3 class="major">Ante fermentum</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
+											<span class="proj-icon"><span class="icon solid fa-brain"></span></span>
+											<h3 class="major">實作深度學習迴歸模型</h3>
+											<ul class="tags"><li>Python</li><li>NumPy</li><li>Matplotlib</li></ul>
+											<ul>
+												<li>將數學公式轉化為可執行的程式，深入理解演算法底層架構。</li>
+												<li>Lab1 憑藉對需求細節的精準執行與紮實的邏輯架構，獲評滿分並被選作示範作業。</li>
+											</ul>
 										</article>
 										<article>
-											<a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-											<h3 class="major">Fusce consequat</h3>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing vehicula id nulla dignissim dapibus ultrices.</p>
-											<a href="#" class="special">Learn more</a>
+											<span class="proj-icon"><span class="icon solid fa-chalkboard-teacher"></span></span>
+											<h3 class="major">Web 基礎教學（NISRA 社團教材）</h3>
+											<ul class="tags"><li>HTML / CSS / JS</li><li>PHP</li><li>Wireshark 分析</li></ul>
+											<ul>
+												<li>規劃系統性的 Web 教材與實作 Lab，帶領 10 位學員從零學習網頁開發。</li>
+												<li>設計 CTF 挑戰題，將課程知識融入解題情境，加深學員理解。</li>
+											</ul>
 										</article>
 									</section>
-									<ul class="actions">
-										<li><a href="#" class="button">Browse All</a></li>
+								</div>
+							</section>
+
+						<!-- Awards & Certifications -->
+							<section id="awards" class="wrapper alt style5">
+								<div class="inner">
+									<h2 class="major">獎項與證照</h2>
+
+									<h3>獎項</h3>
+									<ul class="timeline">
+										<li>
+											<span class="ttl">PUPC 大學程式競賽　銀獎</span>
+											<div class="meta">2025</div>
+										</li>
+										<li>
+											<span class="ttl">尋找資安女婕思 - 資安闖天關 - 大專校院組　優勝</span>
+											<div class="meta">2024 & 2025</div>
+										</li>
+										<li>
+											<span class="ttl">尋找資安女婕思 - 資安闖天關 - 高中職組　第三名</span>
+											<div class="meta">2023</div>
+										</li>
+										<li>
+											<span class="ttl">APCS 大學程式設計先修檢測</span>
+											<div class="meta">觀念題 4 級分 ／ 實作題 3 級分</div>
+										</li>
 									</ul>
+
+									<h3>證照</h3>
+									<ul class="timeline">
+										<li>
+											<span class="ttl">iPAS 資訊安全工程師 - 初級能力鑑定</span>
+											<div class="meta">2025/12</div>
+										</li>
+									</ul>
+								</div>
+							</section>
+
+						<!-- Club Experience -->
+							<section id="club" class="wrapper style6">
+								<div class="inner">
+									<h2 class="major">社團經歷</h2>
+									<div class="box">
+										<h3 style="margin-bottom:.25em;">輔仁大學資訊安全研究會 NISRA</h3>
+										<p style="color:#a3aabf;margin-bottom:1em;">會長 & Web 課程講師｜2024/09 – 2025/09</p>
+										<p><strong>自學網頁開發技術並設計系統化課程教材：</strong><br />
+										教授 3 堂 Web 課程，從 HTML / CSS 基礎到 PHP 實作，最後透過 Wireshark 進行封包分析，帶領 10 位學員認識網路封包分析。</p>
+										<p><strong>會長職責：</strong><br />
+										負責對外聯絡業界講師合作，主持幹部會議，推動社團運作。</p>
+										<p style="margin-bottom:0;"><strong>除了技術之外的收穫：</strong><br />
+										在擔任會長期間，培養了跨團隊溝通與多方協調能力，能成熟應對團隊協作中的各項挑戰。</p>
+									</div>
 								</div>
 							</section>
 
@@ -130,41 +286,14 @@
 				<!-- Footer -->
 					<section id="footer">
 						<div class="inner">
-							<h2 class="major">Get in touch</h2>
-							<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field">
-										<label for="email">Email</label>
-										<input type="email" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="4"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</form>
+							<h2 class="major">聯絡我</h2>
+							<p>對我的經歷有興趣，或有實習、合作機會嗎？歡迎透過以下方式與我聯繫。</p>
 							<ul class="contact">
-								<li class="icon solid fa-home">
-									Untitled Inc<br />
-									1234 Somewhere Road Suite #2894<br />
-									Nashville, TN 00000-0000
-								</li>
-								<li class="icon solid fa-phone">(000) 000-0000</li>
-								<li class="icon solid fa-envelope"><a href="#">information@untitled.tld</a></li>
-								<li class="icon brands fa-twitter"><a href="#">twitter.com/untitled-tld</a></li>
-								<li class="icon brands fa-facebook-f"><a href="#">facebook.com/untitled-tld</a></li>
-								<li class="icon brands fa-instagram"><a href="#">instagram.com/untitled-tld</a></li>
+								<li class="icon solid fa-envelope"><a href="mailto:sherrychen517@gmail.com">sherrychen517@gmail.com</a></li>
+								<li class="icon brands fa-github"><a href="https://github.com/Fallnight0517" target="_blank" rel="noopener">github.com/Fallnight0517</a></li>
 							</ul>
 							<ul class="copyright">
-								<li>&copy; Untitled Inc. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+								<li>&copy; 2026 陳宣妤 Sherry Chen. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 							</ul>
 						</div>
 					</section>

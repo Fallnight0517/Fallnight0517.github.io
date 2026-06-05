@@ -100,8 +100,8 @@ input, select, textarea {
 	}
 
 	body {
-		background-color: #f0efeb;
-		background-image: linear-gradient(to top, rgba(240, 239, 235, 0.82), rgba(240, 239, 235, 0.82)), url("../../images/bg.jpg");
+		background-color: #eef0ee;
+		background-image: linear-gradient(to top, rgba(238, 240, 238, 0.5), rgba(238, 240, 238, 0.5)), url("../../images/new_bg.jpg");
 		background-size: auto, cover;
 		background-attachment: fixed, fixed;
 		background-position: center, center;
@@ -3463,8 +3463,8 @@ input, select, textarea {
 
 			#banner {
 				padding: 7em 0 8.25em 0 ;
-				background-color: #f0efeb;
-				background-image: linear-gradient(to top, rgba(240, 239, 235, 0.82), rgba(240, 239, 235, 0.82)), url("../../images/bg.jpg");
+				background-color: #eef0ee;
+				background-image: linear-gradient(to top, rgba(238, 240, 238, 0.5), rgba(238, 240, 238, 0.5)), url("../../images/new_bg.jpg");
 				background-size: auto, cover;
 				background-position: center, center;
 				margin-bottom: -6.5em;
@@ -3573,8 +3573,8 @@ input, select, textarea {
 
 		#wrapper > header {
 			padding: 9em 0 6.25em 0 ;
-			background-color: #f0efeb;
-			background-image: linear-gradient(to top, rgba(240, 239, 235, 0.82), rgba(240, 239, 235, 0.82)), url("../../images/bg.jpg");
+			background-color: #eef0ee;
+			background-image: linear-gradient(to top, rgba(238, 240, 238, 0.5), rgba(238, 240, 238, 0.5)), url("../../images/new_bg.jpg");
 			background-size: auto, cover;
 			background-position: center, 0% 30%;
 			margin-bottom: -6.5em;
@@ -4061,8 +4061,8 @@ input, select, textarea {
 	@media screen and (max-width: 1280px) {
 
 		#footer {
-			background-color: #f0efeb;
-			background-image: linear-gradient(to top, rgba(240, 239, 235, 0.82), rgba(240, 239, 235, 0.82)), url("../../images/bg.jpg");
+			background-color: #eef0ee;
+			background-image: linear-gradient(to top, rgba(238, 240, 238, 0.5), rgba(238, 240, 238, 0.5)), url("../../images/new_bg.jpg");
 			background-size: auto, cover;
 			background-position: center, center;
 			margin-top: -6.5em;

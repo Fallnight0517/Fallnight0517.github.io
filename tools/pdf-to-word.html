@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="zh-Hant">
+	<head>
+		<title>PDF 轉 Word | 常用工具</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="在瀏覽器本機把 PDF 抽取文字轉成可編輯的 Word (.docx)。" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../assets/css/noscript.css" /></noscript>
+		<style>
+			body { word-break: break-word; }
+
+			.p2w-dropzone {
+				border: 2px dashed #99c1de;
+				border-radius: 8px;
+				background: rgba(153,193,222,0.08);
+				padding: 2.5em 1.5em;
+				text-align: center;
+				cursor: pointer;
+				transition: background .2s ease, border-color .2s ease;
+			}
+			.p2w-dropzone:hover,
+			.p2w-dropzone.dragover { background: rgba(153,193,222,0.2); border-color: #6fa8ce; }
+			.p2w-dropzone .icon { font-size: 2.5em; color: #3f7da8; }
+			.p2w-dropzone p { margin: 0.75em 0 0 0; color: #5b6675; }
+			.p2w-file { margin-top: 1em; font-weight: 700; color: #2e3a45; }
+			.p2w-file:empty { display: none; }
+
+			.p2w-status {
+				margin-top: 1.25em;
+				min-height: 1.5em;
+				color: #3f6480;
+			}
+			.p2w-status.error { color: #b0453a; }
+
+			.p2w-note {
+				margin-top: 2em;
+				padding: 1em 1.25em;
+				border-left: 3px solid #99c1de;
+				background: rgba(153,193,222,0.1);
+				font-size: 0.9em;
+				color: #5b6675;
+			}
+			.p2w-note strong { color: #2e3a45; }
+
+			/* 隱藏原生 file input，用 dropzone 觸發 */
+			#p2w-input { display: none; }
+		</style>
+	</head>
+	<body class="is-preload">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html"><span style="opacity:.7;font-weight:400;">常用工具</span></a></h1>
+						<nav>
+							<a href="#menu">Menu</a>
+						</nav>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>選單</h2>
+							<ul class="links">
+								<li><a href="index.html">← 回工具總覽</a></li>
+								<li><a href="../index.html">回履歷首頁</a></li>
+								<li><a href="pdf-to-word.html">PDF 轉 Word</a></li>
+							</ul>
+							<a href="#" class="close"></a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<section id="wrapper">
+
+						<!-- Tool -->
+							<section class="wrapper style4">
+								<div class="inner">
+									<h2 class="major">PDF 轉 Word</h2>
+									<p>上傳 PDF，工具會抽取其中的文字並產生可編輯的 Word（<code>.docx</code>）檔。
+									全程在你的瀏覽器本機執行，檔案不會上傳到任何伺服器。</p>
+
+									<div id="p2w-dropzone" class="p2w-dropzone">
+										<span class="icon solid fa-file-pdf"></span>
+										<p>把 PDF 拖曳到這裡，或<strong>點擊選擇檔案</strong></p>
+										<div id="p2w-file" class="p2w-file"></div>
+									</div>
+									<input type="file" id="p2w-input" accept="application/pdf,.pdf" />
+
+									<ul class="actions" style="margin-top:1.5em;">
+										<li><button id="p2w-convert" class="button primary" disabled>轉換為 Word</button></li>
+									</ul>
+
+									<div id="p2w-status" class="p2w-status"></div>
+									<ul id="p2w-result" class="actions"></ul>
+
+									<div class="p2w-note">
+										<strong>使用說明：</strong>本工具以<strong>文字抽取</strong>為主，適合純文字或以文字為主的 PDF。
+										複雜排版、圖片、表格、以及純掃描影像（沒有文字層）的 PDF 可能無法正確轉換或會流失格式。
+										加密／有密碼保護的 PDF 也無法處理。
+									</div>
+								</div>
+							</section>
+
+					</section>
+
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<h2 class="major">聯絡我</h2>
+							<ul class="contact">
+								<li class="icon solid fa-envelope"><a href="mailto:sherrychen517@gmail.com">sherrychen517@gmail.com</a></li>
+								<li class="icon brands fa-github"><a href="https://github.com/Fallnight0517" target="_blank" rel="noopener">github.com/Fallnight0517</a></li>
+							</ul>
+							<ul class="copyright">
+								<li>&copy; 2026 Sherry Chen. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- 外部函式庫：pdf.js（抽取文字）、docx（產生 .docx），皆由 jsDelivr 提供 -->
+			<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.min.js"></script>
+			<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
+
+		<!-- 轉換邏輯 -->
+			<script>
+				(function () {
+					var CMAP_URL = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/cmaps/';
+					if (window.pdfjsLib) {
+						pdfjsLib.GlobalWorkerOptions.workerSrc =
+							'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/legacy/build/pdf.worker.min.js';
+					}
+
+					var dropzone = document.getElementById('p2w-dropzone');
+					var input = document.getElementById('p2w-input');
+					var fileLabel = document.getElementById('p2w-file');
+					var convertBtn = document.getElementById('p2w-convert');
+					var statusEl = document.getElementById('p2w-status');
+					var resultEl = document.getElementById('p2w-result');
+					var selectedFile = null;
+
+					function setStatus(msg, isError) {
+						statusEl.textContent = msg || '';
+						statusEl.className = 'p2w-status' + (isError ? ' error' : '');
+					}
+
+					function clearResult() {
+						resultEl.innerHTML = '';
+					}
+
+					function pickFile(file) {
+						clearResult();
+						if (!file) { return; }
+						var isPdf = file.type === 'application/pdf' ||
+							/\.pdf$/i.test(file.name);
+						if (!isPdf) {
+							selectedFile = null;
+							convertBtn.disabled = true;
+							fileLabel.textContent = '';
+							setStatus('請選擇 PDF 檔案。', true);
+							return;
+						}
+						selectedFile = file;
+						fileLabel.textContent = file.name;
+						convertBtn.disabled = false;
+						setStatus('');
+					}
+
+					// 點擊 / 拖放
+					dropzone.addEventListener('click', function () { input.click(); });
+					input.addEventListener('change', function () {
+						pickFile(input.files && input.files[0]);
+					});
+					['dragenter', 'dragover'].forEach(function (evt) {
+						dropzone.addEventListener(evt, function (e) {
+							e.preventDefault(); e.stopPropagation();
+							dropzone.classList.add('dragover');
+						});
+					});
+					['dragleave', 'drop'].forEach(function (evt) {
+						dropzone.addEventListener(evt, function (e) {
+							e.preventDefault(); e.stopPropagation();
+							dropzone.classList.remove('dragover');
+						});
+					});
+					dropzone.addEventListener('drop', function (e) {
+						var files = e.dataTransfer && e.dataTransfer.files;
+						pickFile(files && files[0]);
+					});
+
+					// 把一頁的 text items 重建成一行行文字
+					function itemsToLines(items) {
+						var lines = [];
+						var cur = null; // { y, parts: [{x, str, w}] }
+						for (var i = 0; i < items.length; i++) {
+							var it = items[i];
+							var str = it.str || '';
+							var y = it.transform[5];
+							var x = it.transform[4];
+							if (cur && Math.abs(cur.y - y) > 3) {
+								lines.push(cur); cur = null;
+							}
+							if (str) {
+								if (!cur) { cur = { y: y, parts: [] }; }
+								cur.parts.push({ x: x, str: str, w: it.width || 0 });
+							}
+							if (it.hasEOL && cur) { lines.push(cur); cur = null; }
+						}
+						if (cur) { lines.push(cur); }
+
+						return lines.map(function (l) {
+							var parts = l.parts.slice().sort(function (a, b) { return a.x - b.x; });
+							var s = '';
+							var prevEnd = null;
+							for (var j = 0; j < parts.length; j++) {
+								var p = parts[j];
+								if (prevEnd !== null) {
+									var gap = p.x - prevEnd;
+									var endsSpace = /\s$/.test(s);
+									if (gap > 1.5 && !endsSpace) { s += ' '; }
+								}
+								s += p.str;
+								prevEnd = p.x + p.w;
+							}
+							return s.replace(/\s+$/, '');
+						});
+					}
+
+					function triggerDownload(blob, filename) {
+						var url = URL.createObjectURL(blob);
+						var a = document.createElement('a');
+						a.href = url;
+						a.download = filename;
+						a.className = 'button primary';
+						a.textContent = '下載 ' + filename;
+						var li = document.createElement('li');
+						li.appendChild(a);
+						resultEl.appendChild(li);
+						// 自動下載一次
+						a.click();
+						// 稍後釋放物件 URL（保留連結可再次點擊）
+						setTimeout(function () { URL.revokeObjectURL(url); a.dataset.expired = '1'; }, 60000);
+					}
+
+					convertBtn.addEventListener('click', function () {
+						if (!selectedFile) { return; }
+						if (!window.pdfjsLib || !window.docx) {
+							setStatus('函式庫載入失敗，請檢查網路連線後重新整理頁面。', true);
+							return;
+						}
+						clearResult();
+						convertBtn.disabled = true;
+						setStatus('讀取檔案中…');
+
+						var reader = new FileReader();
+						reader.onload = function () {
+							convertPdf(new Uint8Array(reader.result), selectedFile.name);
+						};
+						reader.onerror = function () {
+							setStatus('讀取檔案失敗。', true);
+							convertBtn.disabled = false;
+						};
+						reader.readAsArrayBuffer(selectedFile);
+					});
+
+					function convertPdf(data, sourceName) {
+						pdfjsLib.getDocument({
+							data: data,
+							cMapUrl: CMAP_URL,
+							cMapPacked: true
+						}).promise.then(function (pdf) {
+							var numPages = pdf.numPages;
+							var pageLinesPromises = [];
+
+							function readPage(pageNum) {
+								return pdf.getPage(pageNum).then(function (page) {
+									return page.getTextContent();
+								}).then(function (tc) {
+									setStatus('解析第 ' + pageNum + ' / ' + numPages + ' 頁…');
+									return itemsToLines(tc.items);
+								});
+							}
+
+							// 依序讀取每一頁，維持頁序
+							var chain = Promise.resolve([]);
+							for (var pn = 1; pn <= numPages; pn++) {
+								(function (n) {
+									chain = chain.then(function (acc) {
+										return readPage(n).then(function (lines) {
+											acc.push(lines);
+											return acc;
+										});
+									});
+								})(pn);
+							}
+
+							return chain.then(function (pages) {
+								buildDocx(pages, numPages, sourceName);
+							});
+						}).catch(function (err) {
+							convertBtn.disabled = false;
+							if (err && err.name === 'PasswordException') {
+								setStatus('這份 PDF 有密碼保護，無法轉換。', true);
+							} else {
+								setStatus('轉換失敗：' + (err && err.message ? err.message : '無法讀取此 PDF。'), true);
+							}
+						});
+					}
+
+					function buildDocx(pages, numPages, sourceName) {
+						var D = window.docx;
+						var children = [];
+						var totalChars = 0;
+
+						for (var p = 0; p < pages.length; p++) {
+							var lines = pages[p];
+							for (var l = 0; l < lines.length; l++) {
+								var text = lines[l];
+								totalChars += text.length;
+								children.push(new D.Paragraph({
+									children: text ? [new D.TextRun(text)] : []
+								}));
+							}
+							// 頁與頁之間插入分頁（最後一頁不用）
+							if (p < pages.length - 1) {
+								children.push(new D.Paragraph({ children: [new D.PageBreak()] }));
+							}
+						}
+
+						if (totalChars === 0) {
+							convertBtn.disabled = false;
+							setStatus('這份 PDF 沒有可抽取的文字（可能是純掃描影像）。本工具僅支援含文字層的 PDF。', true);
+							return;
+						}
+
+						setStatus('產生 Word 檔中…');
+						var doc = new D.Document({
+							sections: [{ properties: {}, children: children }]
+						});
+
+						D.Packer.toBlob(doc).then(function (blob) {
+							var base = sourceName.replace(/\.pdf$/i, '') || 'converted';
+							triggerDownload(blob, base + '.docx');
+							setStatus('完成！共轉換 ' + numPages + ' 頁。若沒有自動下載，請點下方連結。');
+							convertBtn.disabled = false;
+						}).catch(function (err) {
+							convertBtn.disabled = false;
+							setStatus('產生 Word 檔失敗：' + (err && err.message ? err.message : ''), true);
+						});
+					}
+				})();
+			</script>
+
+		<!-- 網站共用 Scripts（選單、RWD） -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/jquery.scrollex.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+	</body>
+</html>
